@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useIntl } from "react-intl";
 import { jsx } from "react/jsx-runtime";
-import { ChartBubble } from "@strapi/icons";
+import { TrendUp } from "@strapi/icons";
 const __variableDynamicImportRuntimeHelper = (glob, path, segs) => {
   const v = glob[path];
   if (v) {
@@ -33,7 +33,7 @@ const Initializer = ({ setPlugin }) => {
     defaultMessage: "Insights"
   });
 };
-const PluginIcon = () => /* @__PURE__ */ jsx(ChartBubble, {});
+const PluginIcon = () => /* @__PURE__ */ jsx(TrendUp, {});
 const index = {
   register(app) {
     app.addMenuLink({
@@ -44,7 +44,7 @@ const index = {
         defaultMessage: PLUGIN_DISPLAY_NAME
       },
       Component: async () => {
-        const { App } = await import("./App-CDuV72AV.mjs");
+        const { App } = await import("./App-CwYn9QCs.mjs");
         return App;
       }
     });

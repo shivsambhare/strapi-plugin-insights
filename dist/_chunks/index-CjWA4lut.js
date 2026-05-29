@@ -34,7 +34,7 @@ const Initializer = ({ setPlugin }) => {
     defaultMessage: "Insights"
   });
 };
-const PluginIcon = () => /* @__PURE__ */ jsxRuntime.jsx(icons.ChartBubble, {});
+const PluginIcon = () => /* @__PURE__ */ jsxRuntime.jsx(icons.TrendUp, {});
 const index = {
   register(app) {
     app.addMenuLink({
@@ -45,7 +45,7 @@ const index = {
         defaultMessage: PLUGIN_DISPLAY_NAME
       },
       Component: async () => {
-        const { App } = await Promise.resolve().then(() => require("./App-D8OYg4x7.js"));
+        const { App } = await Promise.resolve().then(() => require("./App-5ckvBCOz.js"));
         return App;
       }
     });

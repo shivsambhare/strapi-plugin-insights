@@ -4,6 +4,10 @@ Analytics, KPIs, charts, and activity insights for your Strapi content.
 
 `strapi-plugin-insights` adds a read-only analytics dashboard to the Strapi admin panel so content teams and developers can quickly understand collection growth, publishing state, and recent content activity.
 
+## Dashboard Preview
+
+![Strapi Insights dashboard UI](docs/images/dashboard-ui.png)
+
 ## Features
 
 - Dashboard KPIs for collection count, total entries, drafts, published entries, and recent content growth

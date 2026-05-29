@@ -1,5 +1,5 @@
-import { ChartBubble } from '@strapi/icons';
+import { TrendUp } from '@strapi/icons';
 
-const PluginIcon = () => <ChartBubble />;
+const PluginIcon = () => <TrendUp />;
 
 export { PluginIcon };
