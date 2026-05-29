@@ -1,0 +1,75 @@
+{
+  "name": "strapi-plugin-insights",
+  "version": "0.1.0",
+  "description": "Analytics, KPIs, and activity insights for Strapi content.",
+  "keywords": [
+    "strapi",
+    "plugin",
+    "insights",
+    "analytics",
+    "dashboard",
+    "kpi"
+  ],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "source": "./admin/src/index.js",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "source": "./server/src/index.js",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "admin",
+    "server",
+    "constants.js",
+    "dist"
+  ],
+  "scripts": {
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify"
+  },
+  "dependencies": {
+    "@strapi/design-system": "^2.0.0-rc.14",
+    "@strapi/icons": "^2.0.0-rc.14",
+    "react-intl": "^7.0.4"
+  },
+  "devDependencies": {
+    "@strapi/strapi": "^5.5.2",
+    "@strapi/sdk-plugin": "^5.2.8",
+    "prettier": "^3.4.2",
+    "styled-components": "^6.1.13"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": ">=5.0.0",
+    "@strapi/sdk-plugin": ">=5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.28.0",
+    "styled-components": "^6.1.13"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "strapi-plugin-insights",
+    "displayName": "Insights",
+    "description": "Analytics, KPIs, and activity insights for Strapi content."
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Shivprasad Sambhare",
+    "url": "https://linkedin.com/in/shivprasadsambhare"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivsambhare/strapi-plugin-insights.git"
+  }
+}
