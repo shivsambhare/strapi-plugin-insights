@@ -4,13 +4,13 @@ import { Clock, Database, TrendUp, WarningCircle } from '@strapi/icons';
 import {
   BarFill,
   BarTrack,
-  HealthBoardGrid,
   HealthIssue,
+  HealthSummaryGrid,
   IconWell,
   MediaStat,
-  MediaStatGrid,
   Panel,
   PanelInner,
+  ScrollArea,
 } from '../../styles/dashboard';
 import { CHART_COLORS, getPercent } from '../../utils/chartHelpers';
 import { formatNumber } from '../../utils/formatters';
@@ -21,23 +21,23 @@ function ContentHealthBoard({ contentHealth }) {
   const maxIssueCount = collections.reduce((max, collection) => Math.max(max, collection.issueCount), 0);
 
   return (
-    <Panel>
-      <PanelInner>
-        <Flex direction="column" gap={5} alignItems="stretch">
-          <Flex justifyContent="space-between" gap={3} alignItems="center" wrap="wrap">
-            <Flex gap={3} alignItems="center">
-              <IconWell $tone="#fff4e5">
-                <WarningCircle fill="#f29d41" />
-              </IconWell>
-              <Typography variant="delta" textColor="neutral900">
-                Content Health
-              </Typography>
+    <>
+      <Panel>
+        <PanelInner>
+          <Flex direction="column" gap={5} alignItems="stretch">
+            <Flex justifyContent="space-between" gap={3} alignItems="center" wrap="wrap">
+              <Flex gap={3} alignItems="center">
+                <IconWell $tone="#fff4e5">
+                  <WarningCircle fill="#f29d41" />
+                </IconWell>
+                <Typography variant="delta" textColor="neutral900">
+                  Content Health
+                </Typography>
+              </Flex>
+              <Badge>{formatNumber(summary.issueCount)} signals</Badge>
             </Flex>
-            <Badge>{formatNumber(summary.issueCount)} signals</Badge>
-          </Flex>
 
-          <HealthBoardGrid>
-            <MediaStatGrid>
+            <HealthSummaryGrid>
               <MediaStat>
                 <Flex direction="column" gap={2} alignItems="flex-start">
                   <Database fill="#7b61ff" />
@@ -82,55 +82,70 @@ function ContentHealthBoard({ contentHealth }) {
                   </Typography>
                 </Flex>
               </MediaStat>
-            </MediaStatGrid>
+            </HealthSummaryGrid>
+          </Flex>
+        </PanelInner>
+      </Panel>
 
+      <Panel>
+        <PanelInner>
+          <Flex direction="column" gap={4} alignItems="stretch">
             <Flex direction="column" gap={3} alignItems="stretch">
               <Flex justifyContent="space-between" gap={3} alignItems="center">
-                <Typography variant="omega" textColor="neutral900" fontWeight="bold">
-                  Collections to Review
-                </Typography>
+                <Flex gap={3} alignItems="center">
+                  <IconWell $tone="#f0eeff">
+                    <Database fill="#7b61ff" />
+                  </IconWell>
+                  <Typography variant="delta" textColor="neutral900">
+                    Collections to Review
+                  </Typography>
+                </Flex>
                 <Badge>{collections.length}</Badge>
               </Flex>
 
               {collections.length ? (
-                collections.map((collection, index) => (
-                  <HealthIssue key={collection.uid}>
-                    <Flex direction="column" gap={3} alignItems="stretch">
-                      <Flex justifyContent="space-between" gap={3} alignItems="flex-start">
-                        <Flex direction="column" gap={1} alignItems="flex-start">
-                          <Typography variant="omega" textColor="neutral900" fontWeight="bold">
-                            {collection.displayName}
-                          </Typography>
-                          <Typography variant="pi" textColor="neutral600">
-                            {collection.uid}
-                          </Typography>
+                <ScrollArea $maxHeight="36rem">
+                  <Flex direction="column" gap={3} alignItems="stretch">
+                    {collections.map((collection, index) => (
+                      <HealthIssue key={collection.uid}>
+                        <Flex direction="column" gap={3} alignItems="stretch">
+                          <Flex justifyContent="space-between" gap={3} alignItems="flex-start">
+                            <Flex direction="column" gap={1} alignItems="flex-start">
+                              <Typography variant="omega" textColor="neutral900" fontWeight="bold">
+                                {collection.displayName}
+                              </Typography>
+                              <Typography variant="pi" textColor="neutral600">
+                                {collection.uid}
+                              </Typography>
+                            </Flex>
+                            <Badge>{formatNumber(collection.issueCount)}</Badge>
+                          </Flex>
+                          <BarTrack>
+                            <BarFill $width={getPercent(collection.issueCount, maxIssueCount)} $color={CHART_COLORS[index % CHART_COLORS.length]} />
+                          </BarTrack>
+                          <Flex gap={2} wrap="wrap">
+                            {collection.empty && <Badge>Empty</Badge>}
+                            {collection.staleDrafts > 0 && <Badge>{formatNumber(collection.staleDrafts)} stale drafts</Badge>}
+                            {collection.staleContent > 0 && <Badge>{formatNumber(collection.staleContent)} old entries</Badge>}
+                            {collection.missingRequiredFields > 0 && (
+                              <Badge>{formatNumber(collection.missingRequiredFields)} missing required</Badge>
+                            )}
+                          </Flex>
                         </Flex>
-                        <Badge>{formatNumber(collection.issueCount)}</Badge>
-                      </Flex>
-                      <BarTrack>
-                        <BarFill $width={getPercent(collection.issueCount, maxIssueCount)} $color={CHART_COLORS[index % CHART_COLORS.length]} />
-                      </BarTrack>
-                      <Flex gap={2} wrap="wrap">
-                        {collection.empty && <Badge>Empty</Badge>}
-                        {collection.staleDrafts > 0 && <Badge>{formatNumber(collection.staleDrafts)} stale drafts</Badge>}
-                        {collection.staleContent > 0 && <Badge>{formatNumber(collection.staleContent)} old entries</Badge>}
-                        {collection.missingRequiredFields > 0 && (
-                          <Badge>{formatNumber(collection.missingRequiredFields)} missing required</Badge>
-                        )}
-                      </Flex>
-                    </Flex>
-                  </HealthIssue>
-                ))
+                      </HealthIssue>
+                    ))}
+                  </Flex>
+                </ScrollArea>
               ) : (
                 <Typography variant="omega" textColor="neutral600">
                   No content health issues found.
                 </Typography>
               )}
             </Flex>
-          </HealthBoardGrid>
-        </Flex>
-      </PanelInner>
-    </Panel>
+          </Flex>
+        </PanelInner>
+      </Panel>
+    </>
   );
 }
 

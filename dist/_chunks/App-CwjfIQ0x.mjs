@@ -1,11 +1,11 @@
-import { jsx, jsxs, Fragment } from "react/jsx-runtime";
+import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useFetchClient, Page } from "@strapi/strapi/admin";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Flex, Typography, Badge, Box, Button, Main, Loader } from "@strapi/design-system";
 import { WarningCircle, Database, Clock, TrendUp, ArrowClockwise, Images, Server, Upload, File, Graph, ChartPie } from "@strapi/icons";
 import styled, { keyframes } from "styled-components";
-import { b as PluginIcon, a as PLUGIN_VERSION, P as PLUGIN_ID } from "./index-VrO8q4me.mjs";
+import { b as PluginIcon, a as PLUGIN_VERSION, P as PLUGIN_ID } from "./index-lS1lShWt.mjs";
 const enter = keyframes`
   from {
     opacity: 0;
@@ -163,7 +163,7 @@ const MediaStat = styled.div`
   background: #f6f6f9;
   padding: 14px;
 `;
-const HealthBoardGrid = styled.div`
+styled.div`
   display: grid;
   grid-template-columns: minmax(280px, 0.75fr) minmax(420px, 1fr);
   gap: 20px;
@@ -173,11 +173,30 @@ const HealthBoardGrid = styled.div`
     grid-template-columns: 1fr;
   }
 `;
+const HealthSummaryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+
+  @media (max-width: 980px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+`;
 const HealthIssue = styled.div`
   border: 1px solid #eaeaef;
   border-radius: 8px;
   background: #fbfbff;
   padding: 14px;
+`;
+const ScrollArea = styled.div`
+  max-height: ${({ $maxHeight = "34rem" }) => $maxHeight};
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
 `;
 const BarTrack = styled.div`
   height: 10px;
@@ -305,19 +324,19 @@ function ContentHealthBoard({ contentHealth }) {
   const summary = contentHealth.summary || {};
   const collections = contentHealth.collections || [];
   const maxIssueCount = collections.reduce((max, collection) => Math.max(max, collection.issueCount), 0);
-  return /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 5, alignItems: "stretch", children: [
-    /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
-      /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", children: [
-        /* @__PURE__ */ jsx(IconWell, { $tone: "#fff4e5", children: /* @__PURE__ */ jsx(WarningCircle, { fill: "#f29d41" }) }),
-        /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Content Health" })
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 5, alignItems: "stretch", children: [
+      /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
+        /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", children: [
+          /* @__PURE__ */ jsx(IconWell, { $tone: "#fff4e5", children: /* @__PURE__ */ jsx(WarningCircle, { fill: "#f29d41" }) }),
+          /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Content Health" })
+        ] }),
+        /* @__PURE__ */ jsxs(Badge, { children: [
+          formatNumber(summary.issueCount),
+          " signals"
+        ] })
       ] }),
-      /* @__PURE__ */ jsxs(Badge, { children: [
-        formatNumber(summary.issueCount),
-        " signals"
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxs(HealthBoardGrid, { children: [
-      /* @__PURE__ */ jsxs(MediaStatGrid, { children: [
+      /* @__PURE__ */ jsxs(HealthSummaryGrid, { children: [
         /* @__PURE__ */ jsx(MediaStat, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 2, alignItems: "flex-start", children: [
           /* @__PURE__ */ jsx(Database, { fill: "#7b61ff" }),
           /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: "Empty collections" }),
@@ -338,40 +357,43 @@ function ContentHealthBoard({ contentHealth }) {
           /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: "Required fields" }),
           /* @__PURE__ */ jsx(Typography, { variant: "beta", textColor: "neutral900", children: formatNumber(summary.missingRequiredFields) })
         ] }) })
-      ] }),
-      /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
-        /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
-          /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: "Collections to Review" }),
-          /* @__PURE__ */ jsx(Badge, { children: collections.length })
-        ] }),
-        collections.length ? collections.map((collection, index) => /* @__PURE__ */ jsx(HealthIssue, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
-          /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "flex-start", children: [
-            /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
-              /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: collection.displayName }),
-              /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", children: collection.uid })
-            ] }),
-            /* @__PURE__ */ jsx(Badge, { children: formatNumber(collection.issueCount) })
-          ] }),
-          /* @__PURE__ */ jsx(BarTrack, { children: /* @__PURE__ */ jsx(BarFill, { $width: getPercent(collection.issueCount, maxIssueCount), $color: CHART_COLORS[index % CHART_COLORS.length] }) }),
-          /* @__PURE__ */ jsxs(Flex, { gap: 2, wrap: "wrap", children: [
-            collection.empty && /* @__PURE__ */ jsx(Badge, { children: "Empty" }),
-            collection.staleDrafts > 0 && /* @__PURE__ */ jsxs(Badge, { children: [
-              formatNumber(collection.staleDrafts),
-              " stale drafts"
-            ] }),
-            collection.staleContent > 0 && /* @__PURE__ */ jsxs(Badge, { children: [
-              formatNumber(collection.staleContent),
-              " old entries"
-            ] }),
-            collection.missingRequiredFields > 0 && /* @__PURE__ */ jsxs(Badge, { children: [
-              formatNumber(collection.missingRequiredFields),
-              " missing required"
-            ] })
-          ] })
-        ] }) }, collection.uid)) : /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral600", children: "No content health issues found." })
       ] })
-    ] })
-  ] }) }) });
+    ] }) }) }),
+    /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
+      /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
+        /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", children: [
+          /* @__PURE__ */ jsx(IconWell, { $tone: "#f0eeff", children: /* @__PURE__ */ jsx(Database, { fill: "#7b61ff" }) }),
+          /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Collections to Review" })
+        ] }),
+        /* @__PURE__ */ jsx(Badge, { children: collections.length })
+      ] }),
+      collections.length ? /* @__PURE__ */ jsx(ScrollArea, { $maxHeight: "36rem", children: /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: collections.map((collection, index) => /* @__PURE__ */ jsx(HealthIssue, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
+        /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "flex-start", children: [
+          /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
+            /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: collection.displayName }),
+            /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", children: collection.uid })
+          ] }),
+          /* @__PURE__ */ jsx(Badge, { children: formatNumber(collection.issueCount) })
+        ] }),
+        /* @__PURE__ */ jsx(BarTrack, { children: /* @__PURE__ */ jsx(BarFill, { $width: getPercent(collection.issueCount, maxIssueCount), $color: CHART_COLORS[index % CHART_COLORS.length] }) }),
+        /* @__PURE__ */ jsxs(Flex, { gap: 2, wrap: "wrap", children: [
+          collection.empty && /* @__PURE__ */ jsx(Badge, { children: "Empty" }),
+          collection.staleDrafts > 0 && /* @__PURE__ */ jsxs(Badge, { children: [
+            formatNumber(collection.staleDrafts),
+            " stale drafts"
+          ] }),
+          collection.staleContent > 0 && /* @__PURE__ */ jsxs(Badge, { children: [
+            formatNumber(collection.staleContent),
+            " old entries"
+          ] }),
+          collection.missingRequiredFields > 0 && /* @__PURE__ */ jsxs(Badge, { children: [
+            formatNumber(collection.missingRequiredFields),
+            " missing required"
+          ] })
+        ] })
+      ] }) }, collection.uid)) }) }) : /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral600", children: "No content health issues found." })
+    ] }) }) }) })
+  ] });
 }
 function DonutChart({ draftCount, publishedCount }) {
   const total = draftCount + publishedCount;
@@ -492,7 +514,7 @@ function DashboardHeader({ isLoading, onRefresh }) {
   ] }) });
 }
 function CollectionsTable({ collections, max }) {
-  return /* @__PURE__ */ jsx(Box, { overflow: "auto", maxHeight: "34rem", children: /* @__PURE__ */ jsxs(StyledTable, { children: [
+  return /* @__PURE__ */ jsx(ScrollArea, { $maxHeight: "34rem", children: /* @__PURE__ */ jsxs(StyledTable, { children: [
     /* @__PURE__ */ jsx("thead", { children: /* @__PURE__ */ jsx("tr", { children: ["Collection", "Entries", "30 days", "Today", "Published", "Draft", "Share"].map((heading) => /* @__PURE__ */ jsx("th", { children: /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: heading }) }, heading)) }) }),
     /* @__PURE__ */ jsx("tbody", { children: collections.map((collection, index) => /* @__PURE__ */ jsxs("tr", { children: [
       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
@@ -525,11 +547,11 @@ function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
         /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Recent Activity" }),
         /* @__PURE__ */ jsx(Badge, { children: recentActivity.length })
       ] }),
-      recentActivity.length ? /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: recentActivity.map((activity) => /* @__PURE__ */ jsx(ActivityItem, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
+      recentActivity.length ? /* @__PURE__ */ jsx(ScrollArea, { $maxHeight: "34rem", children: /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: recentActivity.map((activity) => /* @__PURE__ */ jsx(ActivityItem, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
         /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: activity.collectionName }),
         /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", children: formatDate(activity.updatedAt) }),
         /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral500", children: activity.collectionUid })
-      ] }) }, `${activity.collectionUid}-${activity.id}`)) }) : /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral600", children: "No recent activity found." })
+      ] }) }, `${activity.collectionUid}-${activity.id}`)) }) }) : /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral600", children: "No recent activity found." })
     ] }) }) }) })
   ] });
 }

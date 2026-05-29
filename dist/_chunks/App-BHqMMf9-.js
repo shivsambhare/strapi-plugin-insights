@@ -7,7 +7,7 @@ const react = require("react");
 const designSystem = require("@strapi/design-system");
 const icons = require("@strapi/icons");
 const styled = require("styled-components");
-const index = require("./index-CjWA4lut.js");
+const index = require("./index-CyrrFtpu.js");
 const _interopDefault = (e) => e && e.__esModule ? e : { default: e };
 const styled__default = /* @__PURE__ */ _interopDefault(styled);
 const enter = styled.keyframes`
@@ -167,7 +167,7 @@ const MediaStat = styled__default.default.div`
   background: #f6f6f9;
   padding: 14px;
 `;
-const HealthBoardGrid = styled__default.default.div`
+styled__default.default.div`
   display: grid;
   grid-template-columns: minmax(280px, 0.75fr) minmax(420px, 1fr);
   gap: 20px;
@@ -177,11 +177,30 @@ const HealthBoardGrid = styled__default.default.div`
     grid-template-columns: 1fr;
   }
 `;
+const HealthSummaryGrid = styled__default.default.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+
+  @media (max-width: 980px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+`;
 const HealthIssue = styled__default.default.div`
   border: 1px solid #eaeaef;
   border-radius: 8px;
   background: #fbfbff;
   padding: 14px;
+`;
+const ScrollArea = styled__default.default.div`
+  max-height: ${({ $maxHeight = "34rem" }) => $maxHeight};
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
 `;
 const BarTrack = styled__default.default.div`
   height: 10px;
@@ -309,19 +328,19 @@ function ContentHealthBoard({ contentHealth }) {
   const summary = contentHealth.summary || {};
   const collections = contentHealth.collections || [];
   const maxIssueCount = collections.reduce((max, collection) => Math.max(max, collection.issueCount), 0);
-  return /* @__PURE__ */ jsxRuntime.jsx(Panel, { children: /* @__PURE__ */ jsxRuntime.jsx(PanelInner, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 5, alignItems: "stretch", children: [
-    /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
-      /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { gap: 3, alignItems: "center", children: [
-        /* @__PURE__ */ jsxRuntime.jsx(IconWell, { $tone: "#fff4e5", children: /* @__PURE__ */ jsxRuntime.jsx(icons.WarningCircle, { fill: "#f29d41" }) }),
-        /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "delta", textColor: "neutral900", children: "Content Health" })
+  return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(Panel, { children: /* @__PURE__ */ jsxRuntime.jsx(PanelInner, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 5, alignItems: "stretch", children: [
+      /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { gap: 3, alignItems: "center", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(IconWell, { $tone: "#fff4e5", children: /* @__PURE__ */ jsxRuntime.jsx(icons.WarningCircle, { fill: "#f29d41" }) }),
+          /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "delta", textColor: "neutral900", children: "Content Health" })
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
+          formatNumber(summary.issueCount),
+          " signals"
+        ] })
       ] }),
-      /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
-        formatNumber(summary.issueCount),
-        " signals"
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntime.jsxs(HealthBoardGrid, { children: [
-      /* @__PURE__ */ jsxRuntime.jsxs(MediaStatGrid, { children: [
+      /* @__PURE__ */ jsxRuntime.jsxs(HealthSummaryGrid, { children: [
         /* @__PURE__ */ jsxRuntime.jsx(MediaStat, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 2, alignItems: "flex-start", children: [
           /* @__PURE__ */ jsxRuntime.jsx(icons.Database, { fill: "#7b61ff" }),
           /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: "Empty collections" }),
@@ -342,40 +361,43 @@ function ContentHealthBoard({ contentHealth }) {
           /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: "Required fields" }),
           /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "beta", textColor: "neutral900", children: formatNumber(summary.missingRequiredFields) })
         ] }) })
-      ] }),
-      /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
-        /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
-          /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: "Collections to Review" }),
-          /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: collections.length })
-        ] }),
-        collections.length ? collections.map((collection, index2) => /* @__PURE__ */ jsxRuntime.jsx(HealthIssue, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
-          /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { justifyContent: "space-between", gap: 3, alignItems: "flex-start", children: [
-            /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
-              /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: collection.displayName }),
-              /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral600", children: collection.uid })
-            ] }),
-            /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: formatNumber(collection.issueCount) })
-          ] }),
-          /* @__PURE__ */ jsxRuntime.jsx(BarTrack, { children: /* @__PURE__ */ jsxRuntime.jsx(BarFill, { $width: getPercent(collection.issueCount, maxIssueCount), $color: CHART_COLORS[index2 % CHART_COLORS.length] }) }),
-          /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { gap: 2, wrap: "wrap", children: [
-            collection.empty && /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: "Empty" }),
-            collection.staleDrafts > 0 && /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
-              formatNumber(collection.staleDrafts),
-              " stale drafts"
-            ] }),
-            collection.staleContent > 0 && /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
-              formatNumber(collection.staleContent),
-              " old entries"
-            ] }),
-            collection.missingRequiredFields > 0 && /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
-              formatNumber(collection.missingRequiredFields),
-              " missing required"
-            ] })
-          ] })
-        ] }) }, collection.uid)) : /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral600", children: "No content health issues found." })
       ] })
-    ] })
-  ] }) }) });
+    ] }) }) }),
+    /* @__PURE__ */ jsxRuntime.jsx(Panel, { children: /* @__PURE__ */ jsxRuntime.jsx(PanelInner, { children: /* @__PURE__ */ jsxRuntime.jsx(designSystem.Flex, { direction: "column", gap: 4, alignItems: "stretch", children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
+      /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { gap: 3, alignItems: "center", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(IconWell, { $tone: "#f0eeff", children: /* @__PURE__ */ jsxRuntime.jsx(icons.Database, { fill: "#7b61ff" }) }),
+          /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "delta", textColor: "neutral900", children: "Collections to Review" })
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: collections.length })
+      ] }),
+      collections.length ? /* @__PURE__ */ jsxRuntime.jsx(ScrollArea, { $maxHeight: "36rem", children: /* @__PURE__ */ jsxRuntime.jsx(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: collections.map((collection, index2) => /* @__PURE__ */ jsxRuntime.jsx(HealthIssue, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { justifyContent: "space-between", gap: 3, alignItems: "flex-start", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
+            /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: collection.displayName }),
+            /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral600", children: collection.uid })
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: formatNumber(collection.issueCount) })
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsx(BarTrack, { children: /* @__PURE__ */ jsxRuntime.jsx(BarFill, { $width: getPercent(collection.issueCount, maxIssueCount), $color: CHART_COLORS[index2 % CHART_COLORS.length] }) }),
+        /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { gap: 2, wrap: "wrap", children: [
+          collection.empty && /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: "Empty" }),
+          collection.staleDrafts > 0 && /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
+            formatNumber(collection.staleDrafts),
+            " stale drafts"
+          ] }),
+          collection.staleContent > 0 && /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
+            formatNumber(collection.staleContent),
+            " old entries"
+          ] }),
+          collection.missingRequiredFields > 0 && /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Badge, { children: [
+            formatNumber(collection.missingRequiredFields),
+            " missing required"
+          ] })
+        ] })
+      ] }) }, collection.uid)) }) }) : /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral600", children: "No content health issues found." })
+    ] }) }) }) })
+  ] });
 }
 function DonutChart({ draftCount, publishedCount }) {
   const total = draftCount + publishedCount;
@@ -496,7 +518,7 @@ function DashboardHeader({ isLoading, onRefresh }) {
   ] }) });
 }
 function CollectionsTable({ collections, max }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(designSystem.Box, { overflow: "auto", maxHeight: "34rem", children: /* @__PURE__ */ jsxRuntime.jsxs(StyledTable, { children: [
+  return /* @__PURE__ */ jsxRuntime.jsx(ScrollArea, { $maxHeight: "34rem", children: /* @__PURE__ */ jsxRuntime.jsxs(StyledTable, { children: [
     /* @__PURE__ */ jsxRuntime.jsx("thead", { children: /* @__PURE__ */ jsxRuntime.jsx("tr", { children: ["Collection", "Entries", "30 days", "Today", "Published", "Draft", "Share"].map((heading) => /* @__PURE__ */ jsxRuntime.jsx("th", { children: /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: heading }) }, heading)) }) }),
     /* @__PURE__ */ jsxRuntime.jsx("tbody", { children: collections.map((collection, index2) => /* @__PURE__ */ jsxRuntime.jsxs("tr", { children: [
       /* @__PURE__ */ jsxRuntime.jsx("td", { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
@@ -529,11 +551,11 @@ function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
         /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "delta", textColor: "neutral900", children: "Recent Activity" }),
         /* @__PURE__ */ jsxRuntime.jsx(designSystem.Badge, { children: recentActivity.length })
       ] }),
-      recentActivity.length ? /* @__PURE__ */ jsxRuntime.jsx(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: recentActivity.map((activity) => /* @__PURE__ */ jsxRuntime.jsx(ActivityItem, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
+      recentActivity.length ? /* @__PURE__ */ jsxRuntime.jsx(ScrollArea, { $maxHeight: "34rem", children: /* @__PURE__ */ jsxRuntime.jsx(designSystem.Flex, { direction: "column", gap: 3, alignItems: "stretch", children: recentActivity.map((activity) => /* @__PURE__ */ jsxRuntime.jsx(ActivityItem, { children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
         /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", children: activity.collectionName }),
         /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral600", children: formatDate(activity.updatedAt) }),
         /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "pi", textColor: "neutral500", children: activity.collectionUid })
-      ] }) }, `${activity.collectionUid}-${activity.id}`)) }) : /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral600", children: "No recent activity found." })
+      ] }) }, `${activity.collectionUid}-${activity.id}`)) }) }) : /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "omega", textColor: "neutral600", children: "No recent activity found." })
     ] }) }) }) })
   ] });
 }

@@ -185,11 +185,32 @@ const HealthBoardGrid = styled.div`
   }
 `;
 
+const HealthSummaryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+
+  @media (max-width: 980px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
 const HealthIssue = styled.div`
   border: 1px solid #eaeaef;
   border-radius: 8px;
   background: #fbfbff;
   padding: 14px;
+`;
+
+const ScrollArea = styled.div`
+  max-height: ${({ $maxHeight = '34rem' }) => $maxHeight};
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
 `;
 
 const BarTrack = styled.div`
@@ -278,6 +299,7 @@ export {
   DetailGrid,
   HealthBoardGrid,
   HealthIssue,
+  HealthSummaryGrid,
   Hero,
   IconWell,
   KpiGrid,
@@ -289,6 +311,7 @@ export {
   PageShell,
   Panel,
   PanelInner,
+  ScrollArea,
   StyledTable,
   TrendColumn,
 };

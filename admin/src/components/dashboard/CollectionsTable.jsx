@@ -1,12 +1,12 @@
 import { Box, Flex, Typography } from '@strapi/design-system';
 
-import { BarFill, BarTrack, StyledTable } from '../../styles/dashboard';
+import { BarFill, BarTrack, ScrollArea, StyledTable } from '../../styles/dashboard';
 import { CHART_COLORS, getPercent } from '../../utils/chartHelpers';
 import { formatNumber } from '../../utils/formatters';
 
 function CollectionsTable({ collections, max }) {
   return (
-    <Box overflow="auto" maxHeight="34rem">
+    <ScrollArea $maxHeight="34rem">
       <StyledTable>
         <thead>
           <tr>
@@ -58,7 +58,7 @@ function CollectionsTable({ collections, max }) {
           ))}
         </tbody>
       </StyledTable>
-    </Box>
+    </ScrollArea>
   );
 }
 

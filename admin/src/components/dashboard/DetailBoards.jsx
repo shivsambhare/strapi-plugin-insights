@@ -1,6 +1,6 @@
 import { Badge, Flex, Typography } from '@strapi/design-system';
 
-import { ActivityItem, DetailGrid, Panel, PanelInner } from '../../styles/dashboard';
+import { ActivityItem, DetailGrid, Panel, PanelInner, ScrollArea } from '../../styles/dashboard';
 import { formatDate } from '../../utils/formatters';
 import { CollectionsTable } from './CollectionsTable';
 
@@ -34,23 +34,25 @@ function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
                 <Badge>{recentActivity.length}</Badge>
               </Flex>
               {recentActivity.length ? (
-                <Flex direction="column" gap={3} alignItems="stretch">
-                  {recentActivity.map((activity) => (
-                    <ActivityItem key={`${activity.collectionUid}-${activity.id}`}>
-                      <Flex direction="column" gap={1} alignItems="flex-start">
-                        <Typography variant="omega" textColor="neutral900" fontWeight="bold">
-                          {activity.collectionName}
-                        </Typography>
-                        <Typography variant="pi" textColor="neutral600">
-                          {formatDate(activity.updatedAt)}
-                        </Typography>
-                        <Typography variant="pi" textColor="neutral500">
-                          {activity.collectionUid}
-                        </Typography>
-                      </Flex>
-                    </ActivityItem>
-                  ))}
-                </Flex>
+                <ScrollArea $maxHeight="34rem">
+                  <Flex direction="column" gap={3} alignItems="stretch">
+                    {recentActivity.map((activity) => (
+                      <ActivityItem key={`${activity.collectionUid}-${activity.id}`}>
+                        <Flex direction="column" gap={1} alignItems="flex-start">
+                          <Typography variant="omega" textColor="neutral900" fontWeight="bold">
+                            {activity.collectionName}
+                          </Typography>
+                          <Typography variant="pi" textColor="neutral600">
+                            {formatDate(activity.updatedAt)}
+                          </Typography>
+                          <Typography variant="pi" textColor="neutral500">
+                            {activity.collectionUid}
+                          </Typography>
+                        </Flex>
+                      </ActivityItem>
+                    ))}
+                  </Flex>
+                </ScrollArea>
               ) : (
                 <Typography variant="omega" textColor="neutral600">
                   No recent activity found.

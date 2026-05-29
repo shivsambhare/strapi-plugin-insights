@@ -1,8 +1,7 @@
-"use strict";
-const react = require("react");
-const reactIntl = require("react-intl");
-const jsxRuntime = require("react/jsx-runtime");
-const icons = require("@strapi/icons");
+import { useRef, useEffect } from "react";
+import { useIntl } from "react-intl";
+import { jsx } from "react/jsx-runtime";
+import { TrendUp } from "@strapi/icons";
 const __variableDynamicImportRuntimeHelper = (glob, path, segs) => {
   const v = glob[path];
   if (v) {
@@ -24,9 +23,9 @@ const PLUGIN_VERSION = "0.1.0";
 const PLUGIN_ID = "strapi-plugin-insights";
 const getTranslation = (id) => `${PLUGIN_ID}.${id}`;
 const Initializer = ({ setPlugin }) => {
-  const ref = react.useRef(setPlugin);
-  const { formatMessage } = reactIntl.useIntl();
-  react.useEffect(() => {
+  const ref = useRef(setPlugin);
+  const { formatMessage } = useIntl();
+  useEffect(() => {
     ref.current("strapi-plugin-insights");
   }, []);
   return formatMessage({
@@ -34,7 +33,7 @@ const Initializer = ({ setPlugin }) => {
     defaultMessage: "Insights"
   });
 };
-const PluginIcon = () => /* @__PURE__ */ jsxRuntime.jsx(icons.TrendUp, {});
+const PluginIcon = () => /* @__PURE__ */ jsx(TrendUp, {});
 const index = {
   register(app) {
     app.addMenuLink({
@@ -45,7 +44,7 @@ const index = {
         defaultMessage: PLUGIN_DISPLAY_NAME
       },
       Component: async () => {
-        const { App } = await Promise.resolve().then(() => require("./App-5ckvBCOz.js"));
+        const { App } = await import("./App-CwjfIQ0x.mjs");
         return App;
       }
     });
@@ -60,7 +59,7 @@ const index = {
     return Promise.all(
       locales.map(async (locale) => {
         try {
-          const { default: data } = await __variableDynamicImportRuntimeHelper(/* @__PURE__ */ Object.assign({ "./translations/en.json": () => Promise.resolve().then(() => require("./en-YIUqAQs0.js")) }), `./translations/${locale}.json`, 3);
+          const { default: data } = await __variableDynamicImportRuntimeHelper(/* @__PURE__ */ Object.assign({ "./translations/en.json": () => import("./en-DpDXLHhC.mjs") }), `./translations/${locale}.json`, 3);
           return { data, locale };
         } catch {
           return { data: {}, locale };
@@ -69,7 +68,9 @@ const index = {
     );
   }
 };
-exports.PLUGIN_ID = PLUGIN_ID;
-exports.PLUGIN_VERSION = PLUGIN_VERSION;
-exports.PluginIcon = PluginIcon;
-exports.index = index;
+export {
+  PLUGIN_ID as P,
+  PLUGIN_VERSION as a,
+  PluginIcon as b,
+  index as i
+};
