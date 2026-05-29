@@ -30,7 +30,8 @@
     "admin",
     "server",
     "constants.js",
-    "dist"
+    "dist",
+    "docs"
   ],
   "scripts": {
     "build": "strapi-plugin build",
