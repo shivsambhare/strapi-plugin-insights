@@ -33,13 +33,18 @@ const PageShell = styled.div`
 const Hero = styled.div`
   position: relative;
   overflow: hidden;
-  border: 1px solid #dcdce4;
+  border: 1px solid var(--strapi-colors-neutral200);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 12% 15%, rgba(123, 97, 255, 0.18), transparent 34%),
-    radial-gradient(circle at 82% 8%, rgba(0, 164, 189, 0.16), transparent 28%),
-    linear-gradient(135deg, #ffffff 0%, #f7f8ff 48%, #eef7f4 100%);
-  box-shadow: 0 18px 42px rgba(33, 33, 52, 0.08);
+    radial-gradient(circle at 12% 15%, rgba(123, 97, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 8%, rgba(0, 164, 189, 0.18), transparent 28%),
+    linear-gradient(
+      135deg,
+      var(--strapi-colors-neutral0) 0%,
+      var(--strapi-colors-neutral100) 48%,
+      var(--strapi-colors-neutral150) 100%
+    );
+  box-shadow: 0 10px 24px rgba(33, 33, 52, 0.08);
   padding: 28px;
 `;
 
@@ -49,18 +54,18 @@ const Panel = styled.div`
   height: 100%;
   min-width: 0;
   flex-direction: column;
-  border: 1px solid #dcdce4;
+  border: 1px solid var(--strapi-colors-neutral200);
   border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 14px 34px rgba(33, 33, 52, 0.07);
+  background: var(--strapi-colors-neutral0);
+  box-shadow: 0 14px 34px rgba(33, 33, 52, 0.14);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
 
   &:hover {
-    border-color: #b8b8d1;
-    box-shadow: 0 18px 44px rgba(33, 33, 52, 0.11);
+    border-color: var(--strapi-colors-primary200);
+    box-shadow: 0 18px 44px rgba(33, 33, 52, 0.18);
     transform: translateY(-2px);
   }
 `;
@@ -170,7 +175,7 @@ const MediaStatGrid = styled.div`
 const MediaStat = styled.div`
   min-width: 0;
   border-radius: 8px;
-  background: #f6f6f9;
+  background: var(--strapi-colors-neutral100);
   padding: 14px;
 `;
 
@@ -200,9 +205,9 @@ const HealthSummaryGrid = styled.div`
 `;
 
 const HealthIssue = styled.div`
-  border: 1px solid #eaeaef;
+  border: 1px solid var(--strapi-colors-neutral150);
   border-radius: 8px;
-  background: #fbfbff;
+  background: var(--strapi-colors-neutral100);
   padding: 14px;
 `;
 
@@ -217,7 +222,7 @@ const BarTrack = styled.div`
   height: 10px;
   overflow: hidden;
   border-radius: 999px;
-  background: #f0f0ff;
+  background: var(--strapi-colors-neutral150);
 `;
 
 const BarFill = styled.div`
@@ -232,9 +237,9 @@ const BarFill = styled.div`
 const ActivityItem = styled.div`
   position: relative;
   padding: 14px 14px 14px 34px;
-  border: 1px solid #eaeaef;
+  border: 1px solid var(--strapi-colors-neutral150);
   border-radius: 8px;
-  background: #fbfbff;
+  background: var(--strapi-colors-neutral100);
   transition:
     background 180ms ease,
     border-color 180ms ease,
@@ -253,8 +258,8 @@ const ActivityItem = styled.div`
   }
 
   &:hover {
-    border-color: #c6f0f5;
-    background: #f5fcfd;
+    border-color: var(--strapi-colors-primary200);
+    background: var(--strapi-colors-primary100);
     transform: translateX(2px);
   }
 `;
@@ -270,15 +275,15 @@ const StyledTable = styled.table`
     top: 0;
     z-index: 1;
     padding: 12px 14px;
-    border-bottom: 1px solid #dcdce4;
-    background: #f6f6f9;
+    border-bottom: 1px solid var(--strapi-colors-neutral200);
+    background: var(--strapi-colors-neutral100);
     text-align: left;
   }
 
   td {
     padding: 14px;
-    border-bottom: 1px solid #f0f0ff;
-    background: #ffffff;
+    border-bottom: 1px solid var(--strapi-colors-neutral150);
+    background: var(--strapi-colors-neutral0);
   }
 
   tbody tr {
@@ -286,7 +291,7 @@ const StyledTable = styled.table`
   }
 
   tbody tr:hover td {
-    background: #fbfbff;
+    background: var(--strapi-colors-primary100);
   }
 `;
 

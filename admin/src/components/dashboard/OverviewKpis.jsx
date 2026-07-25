@@ -1,10 +1,10 @@
 import { ChartPie, Database, Graph, TrendUp } from '@strapi/icons';
 
 import { KpiGrid } from '../../styles/dashboard';
-import { formatNumber } from '../../utils/formatters';
+import { formatNumber, formatRangeHeadline } from '../../utils/formatters';
 import { KpiCard } from './KpiCard';
 
-function OverviewKpis({ overview }) {
+function OverviewKpis({ overview, range }) {
   return (
     <KpiGrid>
       <div>
@@ -14,7 +14,7 @@ function OverviewKpis({ overview }) {
           label="Collections"
           value={formatNumber(overview.totalCollections)}
           helper="Visible collection types"
-          tone="#f0eeff"
+          tone="var(--strapi-colors-primary100)"
         />
       </div>
       <div>
@@ -24,7 +24,7 @@ function OverviewKpis({ overview }) {
           label="Entries"
           value={formatNumber(overview.totalEntries)}
           helper="Total records counted"
-          tone="#e7f9fb"
+          tone="var(--strapi-colors-neutral100)"
           trend={[30, 42, 48, 64, 78, 92]}
         />
       </div>
@@ -32,10 +32,10 @@ function OverviewKpis({ overview }) {
         <KpiCard
           delay={120}
           icon={<TrendUp fill="#2f6846" />}
-          label="Created in 30 days"
-          value={formatNumber(overview.createdLast30Days)}
+          label={formatRangeHeadline(range, 'Created')}
+          value={formatNumber(overview.createdInRange)}
           helper="Fresh content signal"
-          tone="#edf8f0"
+          tone="var(--strapi-colors-success100)"
           trend={[28, 50, 38, 76, 56, 82]}
         />
       </div>
@@ -46,7 +46,7 @@ function OverviewKpis({ overview }) {
           label="Drafts"
           value={formatNumber(overview.draftEntries)}
           helper={`${formatNumber(overview.publishedEntries)} published`}
-          tone="#fff4e5"
+          tone="var(--strapi-colors-warning100)"
           trend={[62, 46, 58, 40, 54, 36]}
         />
       </div>

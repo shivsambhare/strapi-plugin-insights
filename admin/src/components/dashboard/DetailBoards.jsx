@@ -4,7 +4,7 @@ import { ActivityItem, DetailGrid, Panel, PanelInner, ScrollArea } from '../../s
 import { formatDate } from '../../utils/formatters';
 import { CollectionsTable } from './CollectionsTable';
 
-function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
+function DetailBoards({ collections, maxCollectionCount, range, recentActivity }) {
   return (
     <DetailGrid>
       <div>
@@ -17,7 +17,7 @@ function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
                 </Typography>
                 <Badge>{collections.length} collections</Badge>
               </Flex>
-              <CollectionsTable collections={collections} max={maxCollectionCount} />
+              <CollectionsTable collections={collections} max={maxCollectionCount} range={range} />
             </Flex>
           </PanelInner>
         </Panel>

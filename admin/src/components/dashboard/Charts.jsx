@@ -2,7 +2,7 @@ import { Badge, Box, Flex, Typography } from '@strapi/design-system';
 
 import { BarFill, BarTrack, ChartWrap } from '../../styles/dashboard';
 import { CHART_COLORS, describeArc, getPercent } from '../../utils/chartHelpers';
-import { formatNumber } from '../../utils/formatters';
+import { formatNumber, formatRangeSubline } from '../../utils/formatters';
 
 function DonutChart({ draftCount, publishedCount }) {
   const total = draftCount + publishedCount;
@@ -53,7 +53,7 @@ function DonutChart({ draftCount, publishedCount }) {
   );
 }
 
-function CollectionBars({ collections, max }) {
+function CollectionBars({ collections, max, range }) {
   return (
     <Flex direction="column" gap={4} alignItems="stretch">
       {collections.map((collection, index) => {
@@ -67,7 +67,7 @@ function CollectionBars({ collections, max }) {
                   {collection.displayName}
                 </Typography>
                 <Typography variant="pi" textColor="neutral600">
-                  {collection.createdLast30Days} new in 30 days
+                  {collection.createdInRange} {formatRangeSubline(range, 'new')}
                 </Typography>
               </Flex>
               <Badge>{formatNumber(collection.total)}</Badge>
@@ -82,8 +82,8 @@ function CollectionBars({ collections, max }) {
   );
 }
 
-function GrowthChart({ collections }) {
-  const values = collections.slice(0, 8).map((collection) => collection.createdLast30Days);
+function GrowthChart({ series = [] }) {
+  const values = series.map((point) => point.count);
   const max = Math.max(...values, 1);
   const points = values
     .map((value, index) => {
@@ -117,8 +117,8 @@ function GrowthChart({ collections }) {
         )}
       </svg>
       <Flex justifyContent="space-between" gap={2}>
-        {collections.slice(0, 4).map((collection) => (
-          <Badge key={collection.uid}>{collection.displayName}</Badge>
+        {series.filter((_, index) => index % Math.max(Math.ceil(series.length / 4), 1) === 0).slice(0, 4).map((point) => (
+          <Badge key={point.start}>{point.label}</Badge>
         ))}
       </Flex>
     </ChartWrap>

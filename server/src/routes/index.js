@@ -15,4 +15,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: 'GET',
+    path: '/export',
+    handler: 'controller.export',
+    config: {
+      policies: [],
+    },
+  },
 ];

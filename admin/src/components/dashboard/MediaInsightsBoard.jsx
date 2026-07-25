@@ -12,7 +12,7 @@ import {
   PanelInner,
 } from '../../styles/dashboard';
 import { CHART_COLORS, getPercent } from '../../utils/chartHelpers';
-import { formatDate, formatMimeLabel, formatNumber, formatStorage } from '../../utils/formatters';
+import { formatDate, formatMimeLabel, formatNumber, formatRangeLabel, formatStorage } from '../../utils/formatters';
 
 function MediaFileList({ files, meta }) {
   if (!files.length) {
@@ -28,7 +28,7 @@ function MediaFileList({ files, meta }) {
       {files.map((file) => (
         <Flex key={file.id} justifyContent="space-between" gap={4} alignItems="center">
           <Flex gap={3} alignItems="center" style={{ minWidth: 0 }}>
-            <IconWell $tone="#edf8f0">
+            <IconWell $tone="var(--strapi-colors-success100)">
               <File fill="#2f6846" />
             </IconWell>
             <Flex direction="column" gap={1} alignItems="flex-start" style={{ minWidth: 0 }}>
@@ -54,7 +54,7 @@ function MediaFileList({ files, meta }) {
   );
 }
 
-function MediaInsightsBoard({ media }) {
+function MediaInsightsBoard({ media, range }) {
   const mimeGroups = media.mimeGroups || [];
   const maxMimeCount = mimeGroups.reduce((max, group) => Math.max(max, group.count), 0);
 
@@ -64,7 +64,7 @@ function MediaInsightsBoard({ media }) {
         <Flex direction="column" gap={5} alignItems="stretch">
           <Flex justifyContent="space-between" gap={3} alignItems="center" wrap="wrap">
             <Flex gap={3} alignItems="center">
-              <IconWell $tone="#e7f9fb">
+              <IconWell $tone="var(--strapi-colors-neutral100)">
                 <Images fill="#00a4bd" />
               </IconWell>
               <Typography variant="delta" textColor="neutral900">
@@ -106,7 +106,10 @@ function MediaInsightsBoard({ media }) {
                       New uploads
                     </Typography>
                     <Typography variant="beta" textColor="neutral900">
-                      {formatNumber(media.uploadedLast30Days)}
+                      {formatNumber(media.uploadedInRange)}
+                    </Typography>
+                    <Typography variant="pi" textColor="neutral600">
+                      {formatRangeLabel(range)}
                     </Typography>
                   </Flex>
                 </MediaStat>

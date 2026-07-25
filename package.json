@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-insights",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Analytics, KPIs, and activity insights for Strapi content.",
   "keywords": [
     "strapi",

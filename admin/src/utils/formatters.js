@@ -36,4 +36,36 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-export { formatDate, formatMimeLabel, formatNumber, formatStorage };
+function formatRangeLabel(range) {
+  if (!range) {
+    return '30 days';
+  }
+
+  return range.label || '30 days';
+}
+
+function formatRangeHeadline(range, prefix) {
+  if (!range) {
+    return `${prefix} in 30 days`;
+  }
+
+  if (range.days === null) {
+    return `${prefix} overall`;
+  }
+
+  return `${prefix} in ${range.label.toLowerCase()}`;
+}
+
+function formatRangeSubline(range, noun = 'new') {
+  if (!range) {
+    return `${noun} in 30 days`;
+  }
+
+  if (range.days === null) {
+    return `${noun} overall`;
+  }
+
+  return `${noun} in ${range.label.toLowerCase()}`;
+}
+
+export { formatDate, formatMimeLabel, formatNumber, formatRangeHeadline, formatRangeLabel, formatRangeSubline, formatStorage };

@@ -27,7 +27,7 @@ function ContentHealthBoard({ contentHealth }) {
           <Flex direction="column" gap={5} alignItems="stretch">
             <Flex justifyContent="space-between" gap={3} alignItems="center" wrap="wrap">
               <Flex gap={3} alignItems="center">
-                <IconWell $tone="#fff4e5">
+                <IconWell $tone="var(--strapi-colors-warning100)">
                   <WarningCircle fill="#f29d41" />
                 </IconWell>
                 <Typography variant="delta" textColor="neutral900">
@@ -93,7 +93,7 @@ function ContentHealthBoard({ contentHealth }) {
             <Flex direction="column" gap={3} alignItems="stretch">
               <Flex justifyContent="space-between" gap={3} alignItems="center">
                 <Flex gap={3} alignItems="center">
-                  <IconWell $tone="#f0eeff">
+                  <IconWell $tone="var(--strapi-colors-primary100)">
                     <Database fill="#7b61ff" />
                   </IconWell>
                   <Typography variant="delta" textColor="neutral900">

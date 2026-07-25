@@ -20,7 +20,17 @@ const __variableDynamicImportRuntimeHelper = (glob, path, segs) => {
   });
 };
 const PLUGIN_DISPLAY_NAME = "Insights";
-const PLUGIN_VERSION = "0.1.0";
+const PLUGIN_VERSION = "0.2.0";
+const DEFAULT_RANGE = "30d";
+const RANGE_OPTIONS = [
+  { value: "7d", label: "7 days", days: 7 },
+  { value: "30d", label: "30 days", days: 30 },
+  { value: "90d", label: "90 days", days: 90 },
+  { value: "all", label: "All time", days: null }
+];
+function getRangeOption(value = DEFAULT_RANGE) {
+  return RANGE_OPTIONS.find((option) => option.value === value) || RANGE_OPTIONS[1];
+}
 const PLUGIN_ID = "strapi-plugin-insights";
 const getTranslation = (id) => `${PLUGIN_ID}.${id}`;
 const Initializer = ({ setPlugin }) => {
@@ -45,7 +55,7 @@ const index = {
         defaultMessage: PLUGIN_DISPLAY_NAME
       },
       Component: async () => {
-        const { App } = await Promise.resolve().then(() => require("./App-BHqMMf9-.js"));
+        const { App } = await Promise.resolve().then(() => require("./App-GYYm-B9F.js"));
         return App;
       }
     });
@@ -69,7 +79,10 @@ const index = {
     );
   }
 };
+exports.DEFAULT_RANGE = DEFAULT_RANGE;
 exports.PLUGIN_ID = PLUGIN_ID;
 exports.PLUGIN_VERSION = PLUGIN_VERSION;
 exports.PluginIcon = PluginIcon;
+exports.RANGE_OPTIONS = RANGE_OPTIONS;
+exports.getRangeOption = getRangeOption;
 exports.index = index;

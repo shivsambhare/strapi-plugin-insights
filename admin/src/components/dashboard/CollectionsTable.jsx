@@ -2,15 +2,15 @@ import { Box, Flex, Typography } from '@strapi/design-system';
 
 import { BarFill, BarTrack, ScrollArea, StyledTable } from '../../styles/dashboard';
 import { CHART_COLORS, getPercent } from '../../utils/chartHelpers';
-import { formatNumber } from '../../utils/formatters';
+import { formatNumber, formatRangeLabel } from '../../utils/formatters';
 
-function CollectionsTable({ collections, max }) {
+function CollectionsTable({ collections, max, range }) {
   return (
     <ScrollArea $maxHeight="34rem">
       <StyledTable>
         <thead>
           <tr>
-            {['Collection', 'Entries', '30 days', 'Today', 'Published', 'Draft', 'Share'].map((heading) => (
+            {['Collection', 'Entries', formatRangeLabel(range), 'Today', 'Published', 'Draft', 'Share'].map((heading) => (
               <th key={heading}>
                 <Typography variant="pi" textColor="neutral600" fontWeight="bold">
                   {heading}
@@ -36,7 +36,7 @@ function CollectionsTable({ collections, max }) {
                 <Typography>{formatNumber(collection.total)}</Typography>
               </td>
               <td>
-                <Typography>{formatNumber(collection.createdLast30Days)}</Typography>
+                <Typography>{formatNumber(collection.createdInRange)}</Typography>
               </td>
               <td>
                 <Typography>{formatNumber(collection.updatedToday)}</Typography>

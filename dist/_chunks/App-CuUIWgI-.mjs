@@ -2,10 +2,10 @@ import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useFetchClient, Page } from "@strapi/strapi/admin";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Flex, Typography, Badge, Box, Button, Main, Loader } from "@strapi/design-system";
-import { WarningCircle, Database, Clock, TrendUp, ArrowClockwise, Images, Server, Upload, File, Graph, ChartPie } from "@strapi/icons";
+import { Flex, Typography, Badge, Box, SingleSelect, SingleSelectOption, Button, Main, Loader } from "@strapi/design-system";
+import { b as PluginIcon, a as PLUGIN_VERSION, R as RANGE_OPTIONS, P as PLUGIN_ID, D as DEFAULT_RANGE, g as getRangeOption } from "./index-Dfyq8Loq.mjs";
+import { WarningCircle, Database, Clock, TrendUp, Download, ArrowClockwise, Images, Server, Upload, File, Graph, ChartPie } from "@strapi/icons";
 import styled, { keyframes } from "styled-components";
-import { b as PluginIcon, a as PLUGIN_VERSION, P as PLUGIN_ID } from "./index-lS1lShWt.mjs";
 const enter = keyframes`
   from {
     opacity: 0;
@@ -36,13 +36,18 @@ const PageShell = styled.div`
 const Hero = styled.div`
   position: relative;
   overflow: hidden;
-  border: 1px solid #dcdce4;
+  border: 1px solid var(--strapi-colors-neutral200);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 12% 15%, rgba(123, 97, 255, 0.18), transparent 34%),
-    radial-gradient(circle at 82% 8%, rgba(0, 164, 189, 0.16), transparent 28%),
-    linear-gradient(135deg, #ffffff 0%, #f7f8ff 48%, #eef7f4 100%);
-  box-shadow: 0 18px 42px rgba(33, 33, 52, 0.08);
+    radial-gradient(circle at 12% 15%, rgba(123, 97, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 8%, rgba(0, 164, 189, 0.18), transparent 28%),
+    linear-gradient(
+      135deg,
+      var(--strapi-colors-neutral0) 0%,
+      var(--strapi-colors-neutral100) 48%,
+      var(--strapi-colors-neutral150) 100%
+    );
+  box-shadow: 0 10px 24px rgba(33, 33, 52, 0.08);
   padding: 28px;
 `;
 const Panel = styled.div`
@@ -51,18 +56,18 @@ const Panel = styled.div`
   height: 100%;
   min-width: 0;
   flex-direction: column;
-  border: 1px solid #dcdce4;
+  border: 1px solid var(--strapi-colors-neutral200);
   border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 14px 34px rgba(33, 33, 52, 0.07);
+  background: var(--strapi-colors-neutral0);
+  box-shadow: 0 14px 34px rgba(33, 33, 52, 0.14);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
 
   &:hover {
-    border-color: #b8b8d1;
-    box-shadow: 0 18px 44px rgba(33, 33, 52, 0.11);
+    border-color: var(--strapi-colors-primary200);
+    box-shadow: 0 18px 44px rgba(33, 33, 52, 0.18);
     transform: translateY(-2px);
   }
 `;
@@ -160,7 +165,7 @@ const MediaStatGrid = styled.div`
 const MediaStat = styled.div`
   min-width: 0;
   border-radius: 8px;
-  background: #f6f6f9;
+  background: var(--strapi-colors-neutral100);
   padding: 14px;
 `;
 styled.div`
@@ -187,9 +192,9 @@ const HealthSummaryGrid = styled.div`
   }
 `;
 const HealthIssue = styled.div`
-  border: 1px solid #eaeaef;
+  border: 1px solid var(--strapi-colors-neutral150);
   border-radius: 8px;
-  background: #fbfbff;
+  background: var(--strapi-colors-neutral100);
   padding: 14px;
 `;
 const ScrollArea = styled.div`
@@ -202,7 +207,7 @@ const BarTrack = styled.div`
   height: 10px;
   overflow: hidden;
   border-radius: 999px;
-  background: #f0f0ff;
+  background: var(--strapi-colors-neutral150);
 `;
 const BarFill = styled.div`
   height: 100%;
@@ -215,9 +220,9 @@ const BarFill = styled.div`
 const ActivityItem = styled.div`
   position: relative;
   padding: 14px 14px 14px 34px;
-  border: 1px solid #eaeaef;
+  border: 1px solid var(--strapi-colors-neutral150);
   border-radius: 8px;
-  background: #fbfbff;
+  background: var(--strapi-colors-neutral100);
   transition:
     background 180ms ease,
     border-color 180ms ease,
@@ -236,8 +241,8 @@ const ActivityItem = styled.div`
   }
 
   &:hover {
-    border-color: #c6f0f5;
-    background: #f5fcfd;
+    border-color: var(--strapi-colors-primary200);
+    background: var(--strapi-colors-primary100);
     transform: translateX(2px);
   }
 `;
@@ -252,15 +257,15 @@ const StyledTable = styled.table`
     top: 0;
     z-index: 1;
     padding: 12px 14px;
-    border-bottom: 1px solid #dcdce4;
-    background: #f6f6f9;
+    border-bottom: 1px solid var(--strapi-colors-neutral200);
+    background: var(--strapi-colors-neutral100);
     text-align: left;
   }
 
   td {
     padding: 14px;
-    border-bottom: 1px solid #f0f0ff;
-    background: #ffffff;
+    border-bottom: 1px solid var(--strapi-colors-neutral150);
+    background: var(--strapi-colors-neutral0);
   }
 
   tbody tr {
@@ -268,7 +273,7 @@ const StyledTable = styled.table`
   }
 
   tbody tr:hover td {
-    background: #fbfbff;
+    background: var(--strapi-colors-primary100);
   }
 `;
 const CHART_COLORS = ["#7b61ff", "#00a4bd", "#f29d41", "#2f6846", "#d02b20", "#6c7781"];
@@ -320,6 +325,30 @@ function formatDate(value) {
     timeStyle: "short"
   }).format(new Date(value));
 }
+function formatRangeLabel(range) {
+  if (!range) {
+    return "30 days";
+  }
+  return range.label || "30 days";
+}
+function formatRangeHeadline(range, prefix) {
+  if (!range) {
+    return `${prefix} in 30 days`;
+  }
+  if (range.days === null) {
+    return `${prefix} overall`;
+  }
+  return `${prefix} in ${range.label.toLowerCase()}`;
+}
+function formatRangeSubline(range, noun = "new") {
+  if (!range) {
+    return `${noun} in 30 days`;
+  }
+  if (range.days === null) {
+    return `${noun} overall`;
+  }
+  return `${noun} in ${range.label.toLowerCase()}`;
+}
 function ContentHealthBoard({ contentHealth }) {
   const summary = contentHealth.summary || {};
   const collections = contentHealth.collections || [];
@@ -328,7 +357,7 @@ function ContentHealthBoard({ contentHealth }) {
     /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 5, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
         /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", children: [
-          /* @__PURE__ */ jsx(IconWell, { $tone: "#fff4e5", children: /* @__PURE__ */ jsx(WarningCircle, { fill: "#f29d41" }) }),
+          /* @__PURE__ */ jsx(IconWell, { $tone: "var(--strapi-colors-warning100)", children: /* @__PURE__ */ jsx(WarningCircle, { fill: "#f29d41" }) }),
           /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Content Health" })
         ] }),
         /* @__PURE__ */ jsxs(Badge, { children: [
@@ -362,7 +391,7 @@ function ContentHealthBoard({ contentHealth }) {
     /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
         /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", children: [
-          /* @__PURE__ */ jsx(IconWell, { $tone: "#f0eeff", children: /* @__PURE__ */ jsx(Database, { fill: "#7b61ff" }) }),
+          /* @__PURE__ */ jsx(IconWell, { $tone: "var(--strapi-colors-primary100)", children: /* @__PURE__ */ jsx(Database, { fill: "#7b61ff" }) }),
           /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Collections to Review" })
         ] }),
         /* @__PURE__ */ jsx(Badge, { children: collections.length })
@@ -427,7 +456,7 @@ function DonutChart({ draftCount, publishedCount }) {
     ] })
   ] });
 }
-function CollectionBars({ collections, max }) {
+function CollectionBars({ collections, max, range }) {
   return /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: collections.map((collection, index) => {
     const width = getPercent(collection.total, max);
     return /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 2, alignItems: "stretch", children: [
@@ -435,8 +464,9 @@ function CollectionBars({ collections, max }) {
         /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
           /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral800", fontWeight: "bold", children: collection.displayName }),
           /* @__PURE__ */ jsxs(Typography, { variant: "pi", textColor: "neutral600", children: [
-            collection.createdLast30Days,
-            " new in 30 days"
+            collection.createdInRange,
+            " ",
+            formatRangeSubline(range, "new")
           ] })
         ] }),
         /* @__PURE__ */ jsx(Badge, { children: formatNumber(collection.total) })
@@ -445,8 +475,8 @@ function CollectionBars({ collections, max }) {
     ] }, collection.uid);
   }) });
 }
-function GrowthChart({ collections }) {
-  const values = collections.slice(0, 8).map((collection) => collection.createdLast30Days);
+function GrowthChart({ series = [] }) {
+  const values = series.map((point) => point.count);
   const max = Math.max(...values, 1);
   const points = values.map((value, index) => {
     const x = 24 + index * (280 / Math.max(values.length - 1, 1));
@@ -469,10 +499,10 @@ function GrowthChart({ collections }) {
         })
       ] })
     ] }),
-    /* @__PURE__ */ jsx(Flex, { justifyContent: "space-between", gap: 2, children: collections.slice(0, 4).map((collection) => /* @__PURE__ */ jsx(Badge, { children: collection.displayName }, collection.uid)) })
+    /* @__PURE__ */ jsx(Flex, { justifyContent: "space-between", gap: 2, children: series.filter((_, index) => index % Math.max(Math.ceil(series.length / 4), 1) === 0).slice(0, 4).map((point) => /* @__PURE__ */ jsx(Badge, { children: point.label }, point.start)) })
   ] });
 }
-function ContentSummaryBoards({ collections, maxCollectionCount, overview, topCollections }) {
+function ContentSummaryBoards({ collections, growthSeries, maxCollectionCount, overview, range, topCollections }) {
   return /* @__PURE__ */ jsxs(ChartGrid, { children: [
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
@@ -484,45 +514,63 @@ function ContentSummaryBoards({ collections, maxCollectionCount, overview, topCo
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
         /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Content Growth" }),
-        /* @__PURE__ */ jsx(Badge, { children: "30 days" })
+        /* @__PURE__ */ jsx(Badge, { children: formatRangeLabel(range) })
       ] }),
-      /* @__PURE__ */ jsx(GrowthChart, { collections })
+      /* @__PURE__ */ jsx(GrowthChart, { series: growthSeries })
     ] }) }) }) }),
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
         /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Top Collections" }),
         /* @__PURE__ */ jsx(Badge, { children: topCollections.length })
       ] }),
-      topCollections.length ? /* @__PURE__ */ jsx(CollectionBars, { collections: topCollections, max: maxCollectionCount }) : /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral600", children: "No collections found." })
+      topCollections.length ? /* @__PURE__ */ jsx(CollectionBars, { collections: topCollections, max: maxCollectionCount, range }) : /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral600", children: "No collections found." })
     ] }) }) }) })
   ] });
 }
-function DashboardHeader({ isLoading, onRefresh }) {
+function DashboardHeader({ isExporting, isLoading, onExport, onRangeChange, onRefresh, rangeKey, rangeLabel }) {
   return /* @__PURE__ */ jsx(Hero, { children: /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", alignItems: "center", gap: 4, wrap: "wrap", children: [
     /* @__PURE__ */ jsxs(Flex, { gap: 4, alignItems: "center", children: [
-      /* @__PURE__ */ jsx(IconWell, { $tone: "#ffffff", children: /* @__PURE__ */ jsx(PluginIcon, {}) }),
+      /* @__PURE__ */ jsx(IconWell, { $tone: "var(--strapi-colors-neutral100)", children: /* @__PURE__ */ jsx(PluginIcon, {}) }),
       /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
-        /* @__PURE__ */ jsx(Typography, { variant: "alpha", textColor: "neutral900", children: "Insights" }),
-        /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral700", children: "Analytics, KPIs, and activity across your Strapi content." })
+        /* @__PURE__ */ jsx(Typography, { variant: "alpha", textColor: "neutral800", children: "Insights" }),
+        /* @__PURE__ */ jsxs(Typography, { variant: "omega", textColor: "neutral700", children: [
+          "Analytics, KPIs, and activity across your Strapi content for ",
+          rangeLabel.toLowerCase(),
+          "."
+        ] })
       ] }),
       /* @__PURE__ */ jsxs(Badge, { children: [
         "v",
         PLUGIN_VERSION
       ] })
     ] }),
-    /* @__PURE__ */ jsx(Button, { startIcon: /* @__PURE__ */ jsx(ArrowClockwise, {}), variant: "secondary", onClick: onRefresh, disabled: isLoading, children: "Refresh" })
+    /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", wrap: "wrap", children: [
+      /* @__PURE__ */ jsx(
+        SingleSelect,
+        {
+          "aria-label": "Select date range",
+          customizeContent: (value) => RANGE_OPTIONS.find((option) => option.value === value)?.label || String(value),
+          onChange: onRangeChange,
+          size: "S",
+          value: rangeKey,
+          children: RANGE_OPTIONS.map((option) => /* @__PURE__ */ jsx(SingleSelectOption, { value: option.value, children: option.label }, option.value))
+        }
+      ),
+      /* @__PURE__ */ jsx(Button, { startIcon: /* @__PURE__ */ jsx(Download, {}), variant: "tertiary", onClick: onExport, disabled: isLoading || isExporting, children: isExporting ? "Exporting" : "Export CSV" }),
+      /* @__PURE__ */ jsx(Button, { startIcon: /* @__PURE__ */ jsx(ArrowClockwise, {}), variant: "secondary", onClick: onRefresh, disabled: isLoading, children: "Refresh" })
+    ] })
   ] }) });
 }
-function CollectionsTable({ collections, max }) {
+function CollectionsTable({ collections, max, range }) {
   return /* @__PURE__ */ jsx(ScrollArea, { $maxHeight: "34rem", children: /* @__PURE__ */ jsxs(StyledTable, { children: [
-    /* @__PURE__ */ jsx("thead", { children: /* @__PURE__ */ jsx("tr", { children: ["Collection", "Entries", "30 days", "Today", "Published", "Draft", "Share"].map((heading) => /* @__PURE__ */ jsx("th", { children: /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: heading }) }, heading)) }) }),
+    /* @__PURE__ */ jsx("thead", { children: /* @__PURE__ */ jsx("tr", { children: ["Collection", "Entries", formatRangeLabel(range), "Today", "Published", "Draft", "Share"].map((heading) => /* @__PURE__ */ jsx("th", { children: /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: heading }) }, heading)) }) }),
     /* @__PURE__ */ jsx("tbody", { children: collections.map((collection, index) => /* @__PURE__ */ jsxs("tr", { children: [
       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", children: [
         /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral800", fontWeight: "bold", children: collection.displayName }),
         /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", children: collection.uid })
       ] }) }),
       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsx(Typography, { children: formatNumber(collection.total) }) }),
-      /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsx(Typography, { children: formatNumber(collection.createdLast30Days) }) }),
+      /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsx(Typography, { children: formatNumber(collection.createdInRange) }) }),
       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsx(Typography, { children: formatNumber(collection.updatedToday) }) }),
       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsx(Typography, { children: collection.published === null ? "-" : formatNumber(collection.published) }) }),
       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsx(Typography, { children: collection.draft === null ? "-" : formatNumber(collection.draft) }) }),
@@ -530,7 +578,7 @@ function CollectionsTable({ collections, max }) {
     ] }, collection.uid)) })
   ] }) });
 }
-function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
+function DetailBoards({ collections, maxCollectionCount, range, recentActivity }) {
   return /* @__PURE__ */ jsxs(DetailGrid, { children: [
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
@@ -540,7 +588,7 @@ function DetailBoards({ collections, maxCollectionCount, recentActivity }) {
           " collections"
         ] })
       ] }),
-      /* @__PURE__ */ jsx(CollectionsTable, { collections, max: maxCollectionCount })
+      /* @__PURE__ */ jsx(CollectionsTable, { collections, max: maxCollectionCount, range })
     ] }) }) }) }),
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 4, alignItems: "stretch", children: [
       /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", children: [
@@ -561,7 +609,7 @@ function MediaFileList({ files, meta }) {
   }
   return /* @__PURE__ */ jsx(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: files.map((file) => /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 4, alignItems: "center", children: [
     /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", style: { minWidth: 0 }, children: [
-      /* @__PURE__ */ jsx(IconWell, { $tone: "#edf8f0", children: /* @__PURE__ */ jsx(File, { fill: "#2f6846" }) }),
+      /* @__PURE__ */ jsx(IconWell, { $tone: "var(--strapi-colors-success100)", children: /* @__PURE__ */ jsx(File, { fill: "#2f6846" }) }),
       /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 1, alignItems: "flex-start", style: { minWidth: 0 }, children: [
         /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "neutral900", fontWeight: "bold", ellipsis: true, children: file.name }),
         /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", children: file.mime })
@@ -573,13 +621,13 @@ function MediaFileList({ files, meta }) {
     ] })
   ] }, file.id)) });
 }
-function MediaInsightsBoard({ media }) {
+function MediaInsightsBoard({ media, range }) {
   const mimeGroups = media.mimeGroups || [];
   const maxMimeCount = mimeGroups.reduce((max, group) => Math.max(max, group.count), 0);
   return /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 5, alignItems: "stretch", children: [
     /* @__PURE__ */ jsxs(Flex, { justifyContent: "space-between", gap: 3, alignItems: "center", wrap: "wrap", children: [
       /* @__PURE__ */ jsxs(Flex, { gap: 3, alignItems: "center", children: [
-        /* @__PURE__ */ jsx(IconWell, { $tone: "#e7f9fb", children: /* @__PURE__ */ jsx(Images, { fill: "#00a4bd" }) }),
+        /* @__PURE__ */ jsx(IconWell, { $tone: "var(--strapi-colors-neutral100)", children: /* @__PURE__ */ jsx(Images, { fill: "#00a4bd" }) }),
         /* @__PURE__ */ jsx(Typography, { variant: "delta", textColor: "neutral900", children: "Media Insights" })
       ] }),
       /* @__PURE__ */ jsxs(Badge, { children: [
@@ -603,7 +651,8 @@ function MediaInsightsBoard({ media }) {
           /* @__PURE__ */ jsx(MediaStat, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 2, alignItems: "flex-start", children: [
             /* @__PURE__ */ jsx(Upload, { fill: "#2f6846" }),
             /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", fontWeight: "bold", children: "New uploads" }),
-            /* @__PURE__ */ jsx(Typography, { variant: "beta", textColor: "neutral900", children: formatNumber(media.uploadedLast30Days) })
+            /* @__PURE__ */ jsx(Typography, { variant: "beta", textColor: "neutral900", children: formatNumber(media.uploadedInRange) }),
+            /* @__PURE__ */ jsx(Typography, { variant: "pi", textColor: "neutral600", children: formatRangeLabel(range) })
           ] }) }),
           /* @__PURE__ */ jsx(MediaStat, { children: /* @__PURE__ */ jsxs(Flex, { direction: "column", gap: 2, alignItems: "flex-start", children: [
             /* @__PURE__ */ jsx(File, { fill: "#f29d41" }),
@@ -663,7 +712,7 @@ function KpiCard({ delay, helper, icon, label, tone, trend, value }) {
     ] })
   ] }) });
 }
-function OverviewKpis({ overview }) {
+function OverviewKpis({ overview, range }) {
   return /* @__PURE__ */ jsxs(KpiGrid, { children: [
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
       KpiCard,
@@ -673,7 +722,7 @@ function OverviewKpis({ overview }) {
         label: "Collections",
         value: formatNumber(overview.totalCollections),
         helper: "Visible collection types",
-        tone: "#f0eeff"
+        tone: "var(--strapi-colors-primary100)"
       }
     ) }),
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
@@ -684,7 +733,7 @@ function OverviewKpis({ overview }) {
         label: "Entries",
         value: formatNumber(overview.totalEntries),
         helper: "Total records counted",
-        tone: "#e7f9fb",
+        tone: "var(--strapi-colors-neutral100)",
         trend: [30, 42, 48, 64, 78, 92]
       }
     ) }),
@@ -693,10 +742,10 @@ function OverviewKpis({ overview }) {
       {
         delay: 120,
         icon: /* @__PURE__ */ jsx(TrendUp, { fill: "#2f6846" }),
-        label: "Created in 30 days",
-        value: formatNumber(overview.createdLast30Days),
+        label: formatRangeHeadline(range, "Created"),
+        value: formatNumber(overview.createdInRange),
         helper: "Fresh content signal",
-        tone: "#edf8f0",
+        tone: "var(--strapi-colors-success100)",
         trend: [28, 50, 38, 76, 56, 82]
       }
     ) }),
@@ -708,22 +757,31 @@ function OverviewKpis({ overview }) {
         label: "Drafts",
         value: formatNumber(overview.draftEntries),
         helper: `${formatNumber(overview.publishedEntries)} published`,
-        tone: "#fff4e5",
+        tone: "var(--strapi-colors-warning100)",
         trend: [62, 46, 58, 40, 54, 36]
       }
     ) })
   ] });
 }
-function useInsightsSummary() {
+function getFilenameFromDisposition(disposition) {
+  const match = disposition?.match(/filename="([^"]+)"/);
+  return match?.[1] || null;
+}
+function useInsightsSummary(rangeKey) {
   const { get } = useFetchClient();
   const [summary, setSummary] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState(null);
-  async function fetchSummary() {
+  async function fetchSummary(nextRange = rangeKey) {
     try {
       setIsLoading(true);
       setError(null);
-      const { data } = await get(`${PLUGIN_ID}/summary`);
+      const { data } = await get(`${PLUGIN_ID}/summary`, {
+        params: {
+          range: nextRange
+        }
+      });
       setSummary(data?.data || null);
     } catch (fetchError) {
       console.error(fetchError);
@@ -732,19 +790,50 @@ function useInsightsSummary() {
       setIsLoading(false);
     }
   }
+  async function exportSummary(nextRange = rangeKey) {
+    try {
+      setIsExporting(true);
+      setError(null);
+      const response = await get(`${PLUGIN_ID}/export`, {
+        params: {
+          range: nextRange
+        },
+        responseType: "blob"
+      });
+      const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type: "text/csv;charset=utf-8" });
+      const link = document.createElement("a");
+      const downloadUrl = window.URL.createObjectURL(blob);
+      link.href = downloadUrl;
+      link.download = getFilenameFromDisposition(response.headers?.["content-disposition"]) || `strapi-insights-${nextRange}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (fetchError) {
+      console.error(fetchError);
+      setError(fetchError?.response?.data?.error?.message || "Failed to export insights.");
+    } finally {
+      setIsExporting(false);
+    }
+  }
   useEffect(() => {
-    fetchSummary();
-  }, []);
+    fetchSummary(rangeKey);
+  }, [rangeKey]);
   return {
     error,
+    exportSummary,
     fetchSummary,
+    isExporting,
     isLoading,
     summary
   };
 }
 const HomePage = () => {
-  const { error, fetchSummary, isLoading, summary } = useInsightsSummary();
+  const [rangeKey, setRangeKey] = useState(DEFAULT_RANGE);
+  const { error, exportSummary, fetchSummary, isExporting, isLoading, summary } = useInsightsSummary(rangeKey);
+  const range = summary?.meta?.range || getRangeOption(rangeKey);
   const overview = summary?.overview || {};
+  const growthSeries = summary?.growthSeries || [];
   const collections = summary?.collections || [];
   const contentHealth = summary?.contentHealth || {};
   const media = summary?.media || {};
@@ -755,26 +844,40 @@ const HomePage = () => {
   );
   const topCollections = collections.slice(0, 6);
   return /* @__PURE__ */ jsx(Main, { padding: 6, background: "neutral100", children: /* @__PURE__ */ jsxs(PageShell, { children: [
-    /* @__PURE__ */ jsx(DashboardHeader, { isLoading, onRefresh: fetchSummary }),
+    /* @__PURE__ */ jsx(
+      DashboardHeader,
+      {
+        isExporting,
+        isLoading,
+        onExport: () => exportSummary(rangeKey),
+        onRangeChange: setRangeKey,
+        onRefresh: () => fetchSummary(rangeKey),
+        rangeKey,
+        rangeLabel: range.label
+      }
+    ),
     error && /* @__PURE__ */ jsx(Box, { background: "danger100", borderColor: "danger200", hasRadius: true, padding: 4, children: /* @__PURE__ */ jsx(Typography, { variant: "omega", textColor: "danger700", children: error }) }),
     isLoading ? /* @__PURE__ */ jsx(Panel, { children: /* @__PURE__ */ jsx(PanelInner, { children: /* @__PURE__ */ jsx(Flex, { justifyContent: "center", padding: 8, children: /* @__PURE__ */ jsx(Loader, { children: "Loading insights" }) }) }) }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsx(OverviewKpis, { overview }),
+      /* @__PURE__ */ jsx(OverviewKpis, { overview, range }),
       /* @__PURE__ */ jsx(
         ContentSummaryBoards,
         {
           collections,
+          growthSeries,
           maxCollectionCount,
           overview,
+          range,
           topCollections
         }
       ),
       /* @__PURE__ */ jsx(ContentHealthBoard, { contentHealth }),
-      /* @__PURE__ */ jsx(MediaInsightsBoard, { media }),
+      /* @__PURE__ */ jsx(MediaInsightsBoard, { media, range }),
       /* @__PURE__ */ jsx(
         DetailBoards,
         {
           collections,
           maxCollectionCount,
+          range,
           recentActivity
         }
       )

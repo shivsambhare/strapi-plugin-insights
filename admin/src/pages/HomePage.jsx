@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Flex, Loader, Main, Typography } from '@strapi/design-system';
 
+import { DEFAULT_RANGE, getRangeOption } from '../../../constants';
 import { ContentHealthBoard } from '../components/dashboard/ContentHealthBoard';
 import { ContentSummaryBoards } from '../components/dashboard/ContentSummaryBoards';
 import { DashboardHeader } from '../components/dashboard/DashboardHeader';
@@ -11,9 +12,12 @@ import { useInsightsSummary } from '../hooks/useInsightsSummary';
 import { PageShell, Panel, PanelInner } from '../styles/dashboard';
 
 const HomePage = () => {
-  const { error, fetchSummary, isLoading, summary } = useInsightsSummary();
+  const [rangeKey, setRangeKey] = useState(DEFAULT_RANGE);
+  const { error, exportSummary, fetchSummary, isExporting, isLoading, summary } = useInsightsSummary(rangeKey);
 
+  const range = summary?.meta?.range || getRangeOption(rangeKey);
   const overview = summary?.overview || {};
+  const growthSeries = summary?.growthSeries || [];
   const collections = summary?.collections || [];
   const contentHealth = summary?.contentHealth || {};
   const media = summary?.media || {};
@@ -27,7 +31,15 @@ const HomePage = () => {
   return (
     <Main padding={6} background="neutral100">
       <PageShell>
-        <DashboardHeader isLoading={isLoading} onRefresh={fetchSummary} />
+        <DashboardHeader
+          isExporting={isExporting}
+          isLoading={isLoading}
+          onExport={() => exportSummary(rangeKey)}
+          onRangeChange={setRangeKey}
+          onRefresh={() => fetchSummary(rangeKey)}
+          rangeKey={rangeKey}
+          rangeLabel={range.label}
+        />
 
         {error && (
           <Box background="danger100" borderColor="danger200" hasRadius padding={4}>
@@ -47,18 +59,21 @@ const HomePage = () => {
           </Panel>
         ) : (
           <>
-            <OverviewKpis overview={overview} />
+            <OverviewKpis overview={overview} range={range} />
             <ContentSummaryBoards
               collections={collections}
+              growthSeries={growthSeries}
               maxCollectionCount={maxCollectionCount}
               overview={overview}
+              range={range}
               topCollections={topCollections}
             />
             <ContentHealthBoard contentHealth={contentHealth} />
-            <MediaInsightsBoard media={media} />
+            <MediaInsightsBoard media={media} range={range} />
             <DetailBoards
               collections={collections}
               maxCollectionCount={maxCollectionCount}
+              range={range}
               recentActivity={recentActivity}
             />
           </>

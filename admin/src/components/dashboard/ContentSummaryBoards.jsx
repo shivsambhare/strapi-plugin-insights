@@ -1,10 +1,10 @@
 import { Badge, Flex, Typography } from '@strapi/design-system';
 
 import { ChartGrid, Panel, PanelInner } from '../../styles/dashboard';
-import { formatNumber } from '../../utils/formatters';
+import { formatNumber, formatRangeLabel } from '../../utils/formatters';
 import { CollectionBars, DonutChart, GrowthChart } from './Charts';
 
-function ContentSummaryBoards({ collections, maxCollectionCount, overview, topCollections }) {
+function ContentSummaryBoards({ collections, growthSeries, maxCollectionCount, overview, range, topCollections }) {
   return (
     <ChartGrid>
       <div>
@@ -31,9 +31,9 @@ function ContentSummaryBoards({ collections, maxCollectionCount, overview, topCo
                 <Typography variant="delta" textColor="neutral900">
                   Content Growth
                 </Typography>
-                <Badge>30 days</Badge>
+                <Badge>{formatRangeLabel(range)}</Badge>
               </Flex>
-              <GrowthChart collections={collections} />
+              <GrowthChart series={growthSeries} />
             </Flex>
           </PanelInner>
         </Panel>
@@ -50,7 +50,7 @@ function ContentSummaryBoards({ collections, maxCollectionCount, overview, topCo
                 <Badge>{topCollections.length}</Badge>
               </Flex>
               {topCollections.length ? (
-                <CollectionBars collections={topCollections} max={maxCollectionCount} />
+                <CollectionBars collections={topCollections} max={maxCollectionCount} range={range} />
               ) : (
                 <Typography variant="omega" textColor="neutral600">
                   No collections found.
